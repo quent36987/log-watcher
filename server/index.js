@@ -2,6 +2,10 @@ const express = require('express');
 const fs = require('fs').promises;
 const path = require('path');
 const cors = require('cors');
+const zlib = require('zlib');
+const { promisify } = require('util');
+
+const gunzip = promisify(zlib.gunzip);
 
 const app = express();
 const PORT = process.env.PORT ||  3001;
@@ -86,9 +90,22 @@ app.get('/api/file/:filename', async (req, res) => {
     }
 
     // Lire le fichier
-    const content = await fs.readFile(filePath, 'utf8');
+    let content;
 
-    console.log(`✅ Fichier lu: ${filename} (${content.length} caractères)`);
+    if (filename.endsWith('.gz')) {
+      console.log('🗜️ Décompression du fichier .gz...');
+      // Lire le fichier compressé
+      const compressedData = await fs.readFile(filePath);
+      // Décompresser
+      const decompressedBuffer = await gunzip(compressedData);
+      content = decompressedBuffer.toString('utf8');
+      console.log(`✅ Fichier décompressé: ${filename} (${compressedData.length} → ${content.length} caractères)`);
+    } else {
+      // Lire le fichier texte normal
+      content = await fs.readFile(filePath, 'utf8');
+      console.log(`✅ Fichier lu: ${filename} (${content.length} caractères)`);
+    }
+
     res.json({
       content,
       fileName: filename,
