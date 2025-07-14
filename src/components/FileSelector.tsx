@@ -19,7 +19,7 @@ export const FileSelector: React.FC<FileSelectorProps> = ({ onFileLoad, loading 
   const [loadingFiles, setLoadingFiles] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const API_BASE = 'http://localhost:3001/api';
+  const API_BASE = '/api';
 
   const loadFiles = async () => {
     setLoadingFiles(true);
