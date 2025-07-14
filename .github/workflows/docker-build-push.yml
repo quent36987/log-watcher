@@ -12,7 +12,7 @@ jobs:
     env:
       REGISTRY: ghcr.io # ou docker.io pour Docker Hub
       OWNER: ${{ github.repository_owner }}
-      IMAGE_NAME: monorepo-app
+      IMAGE_NAME: log-watcher
       TAG: ${{ github.sha }}
     steps:
       - name: Checkout repository

@@ -1,0 +1,9 @@
+version: "3.9"
+
+services:
+  web:
+    image: ghcr.io/quent36987/log-watcher:latest
+    ports:
+      - "6969:3001"
+    environment:
+      LOGS_DIRECTORY: "where"
