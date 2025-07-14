@@ -16,10 +16,7 @@ app.use(express.json());
 // sert les fichiers statiques générés par Vite
 app.use(express.static(path.join(__dirname, 'public')));
 
-// route "catch-all" pour le SPA
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
-});
+
 
 // Route pour lister les fichiers
 app.get('/api/files', async (req, res) => {
@@ -115,6 +112,11 @@ app.get('/api/health', (req, res) => {
     logsDirectory: LOGS_DIRECTORY,
     timestamp: new Date().toISOString()
   });
+});
+
+// route "catch-all" pour le SPA
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.listen(PORT, () => {
