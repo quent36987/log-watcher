@@ -325,9 +325,6 @@ export class LogParser {
       }
 
       return true;
-    }).finally(() => {
-      const endTime = performance.now();
-      console.log(`🔍 Filtrage terminé en ${Math.round(endTime - startTime)}ms`);
     });
   }
 
