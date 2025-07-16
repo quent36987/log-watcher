@@ -55,7 +55,7 @@ export class LogParser {
 
       } else if (currentEntry && line.trim()) {
         // C'est une continuation du log précédent (ligne non vide)
-        console.log(`📝 Continuation ligne ${i + 1}:`, line.substring(0, 50));
+        console.log(`📝 Continuation ligne ${i + 1}:`, line.substring(0, 120));
 
         // Ajouter la ligne au message et au raw
         currentEntry.message += '\n' + line;

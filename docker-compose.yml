@@ -8,4 +8,4 @@ services:
     ports:
       - "6969:3001"
     environment:
-      LOGS_DIRECTORY: "D:/Users/quent/Documents/S9/logs"
+      LOGS_DIRECTORY: "/mnt/d/Users/quent/Documents/S9/logs"
