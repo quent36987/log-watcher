@@ -126,15 +126,6 @@ export const LogTable: React.FC<LogTableProps> = ({ logs }) => {
                 Thread
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                <button
-                  onClick={() => handleSort('className')}
-                  className="flex items-center space-x-1 hover:text-gray-700"
-                >
-                  <span>Classe</span>
-                  <SortIcon field="className" />
-                </button>
-              </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Message
               </th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
@@ -154,14 +145,11 @@ export const LogTable: React.FC<LogTableProps> = ({ logs }) => {
                       {log.level}
                     </span>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-600">
+                  <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-600 w-32">
                     {log.thread}
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap text-sm font-mono text-gray-800">
-                    {log.className}
-                  </td>
                   <td className="px-6 py-4 text-sm text-gray-900">
-                    <div className="max-w-md truncate">
+                    <div className="max-w-3xl">
                       {log.message.split('\n')[0]}
                       {log.message.includes('\n') && <span className="text-gray-500 ml-1">...</span>}
                     </div>

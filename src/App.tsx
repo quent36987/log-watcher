@@ -113,7 +113,7 @@ function App() {
             <div className="flex items-center space-x-3">
               <FileText className="w-8 h-8 text-blue-600" />
               <h1 className="text-xl font-semibold text-gray-900">
-                Analyseur de Logs !
+                Analyseur de Logs !!
               </h1>
             </div>
             {logs.length > 0 && (
@@ -135,7 +135,7 @@ function App() {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {error && (
           <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg flex items-start space-x-3">
             <AlertTriangle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
