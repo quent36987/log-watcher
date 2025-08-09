@@ -113,7 +113,7 @@ function App() {
             <div className="flex items-center space-x-3">
               <FileText className="w-8 h-8 text-blue-600" />
               <h1 className="text-xl font-semibold text-gray-900">
-                Analyseur de Logs !!
+                Analyseur de Logs 0.0.4
               </h1>
             </div>
             {logs.length > 0 && (

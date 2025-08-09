@@ -7,6 +7,14 @@ interface LogIndex {
   all: LogEntry[];
 }
 
+function generateUUID() {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+      const r = Math.random() * 16 | 0;
+      const v = c === 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+}
+
 export class LogParser {
   // Pattern simple pour détecter un timestamp au début d'une ligne
   private static readonly TIMESTAMP_PATTERN = /^(\d{4}-\d{2}-\d{2}[T\s]\d{2}:\d{2}:\d{2}(?:[.,]\d{3})?Z?)/;
@@ -188,7 +196,7 @@ export class LogParser {
     }
 
     return {
-      id: crypto.randomUUID(),
+      id: generateUUID(),
       timestamp: this.parseTimestamp(timestamp),
       level: this.normalizeLevel(level),
       thread: thread,
@@ -200,7 +208,7 @@ export class LogParser {
 
   private static createFallbackEntry(line: string): LogEntry {
     return {
-      id: crypto.randomUUID(),
+      id: generateUUID(),
       timestamp: new Date(),
       level: 'INFO',
       thread: 'main',
@@ -381,4 +389,6 @@ export class LogParser {
     this.logIndex = null;
     console.log('🗑️ Index des logs nettoyé');
   }
+
+
 }
