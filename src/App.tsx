@@ -25,16 +25,16 @@ function App() {
     console.log('🎯 App: Début du traitement du fichier', name);
     setLoading(true);
     setError(null);
-    
+
     try {
       console.log('📊 App: Parsing des logs...');
       const parsedLogs = LogParser.parseLogFile(content);
       console.log('✅ App: Logs parsés avec succès:', parsedLogs.length, 'entrées');
-      
+
       setLogs(parsedLogs);
       setFileName(name);
       setHideAuthErrors(false);
-      
+
       // Reset filters
       setFilter({
         search: '',
@@ -42,7 +42,7 @@ function App() {
         dateFrom: '',
         dateTo: ''
       });
-      
+
     } catch (error) {
       console.error('❌ App: Erreur lors du parsing:', error);
       const errorMessage = error instanceof Error ? error.message : 'Erreur inconnue lors du traitement du fichier';
@@ -51,6 +51,43 @@ function App() {
       setLoading(false);
     }
   };
+
+  // ajoute ceci à côté de handleFileLoad
+  const handleFilesLoad = async (
+      files: { content: string; fileName: string }[]
+  ) => {
+    console.log('🎯 App: Début du traitement multi-fichiers', files.map(f => f.fileName));
+    setLoading(true);
+    setError(null);
+
+    try {
+      const allParsed: LogEntry[] = [];
+
+      for (const f of files) {
+        console.log('📊 App: Parsing des logs pour', f.fileName);
+        const parsed = LogParser.parseLogFile(f.content);
+        allParsed.push(...parsed);
+      }
+
+      // tri global par timestamp pour une timeline cohérente
+      allParsed.sort((a, b) => a.timestamp.getTime() - b.timestamp.getTime());
+
+      console.log('✅ App: Fusion OK:', allParsed.length, 'entrées');
+      setLogs(allParsed);
+      setFileName(`${files.length} fichier(s)`); // ou files.map(f=>f.fileName).join(', ')
+      setHideAuthErrors(false);
+
+      // reset filtres
+      setFilter({ search: '', level: '', dateFrom: '', dateTo: '' });
+    } catch (e) {
+      console.error('❌ App: Erreur parsing multi:', e);
+      const msg = e instanceof Error ? e.message : 'Erreur inconnue lors du traitement des fichiers';
+      setError(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
+
 
   const handleReset = () => {
     console.log('🔄 App: Reset de l\'application');
@@ -113,7 +150,7 @@ function App() {
             <div className="flex items-center space-x-3">
               <FileText className="w-8 h-8 text-blue-600" />
               <h1 className="text-xl font-semibold text-gray-900">
-                Analyseur de Logs 0.0.4
+                Analyseur de Logs 0.0.5
               </h1>
             </div>
             {logs.length > 0 && (
@@ -187,9 +224,19 @@ function App() {
             </div>
 
             {useFileSelector ? (
-              <FileSelector onFileLoad={handleFileLoad} loading={loading} />
+                <FileSelector
+                    multiple
+                    onFileLoad={handleFileLoad}      // rétro-compat si besoin
+                    onFilesLoad={handleFilesLoad}    // ← nouveau
+                    loading={loading}
+                />
             ) : (
-              <FileDropZone onFileLoad={handleFileLoad} loading={loading} />
+                <FileDropZone
+                    multiple
+                    onFileLoad={handleFileLoad}      // rétro-compat si besoin
+                    onFilesLoad={handleFilesLoad}    // ← nouveau
+                    loading={loading}
+                />
             )}
           </div>
         ) : (

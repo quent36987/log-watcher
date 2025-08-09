@@ -50,8 +50,6 @@ export class LogParser {
 
       if (timestampMatch) {
         // C'est une nouvelle entrée de log
-        console.log(`✅ Nouvelle entrée ligne ${i + 1}:`, line.substring(0, 100));
-
         // Sauvegarder l'entrée précédente si elle existe
         if (currentEntry) {
           entries.push(currentEntry);
